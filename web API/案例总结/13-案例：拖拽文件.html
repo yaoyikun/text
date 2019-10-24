@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* body默认高度为0，设置宽度100%和页面(document)一样高 */
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            border: 5px dashed black;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>拖拽图片到虚线内</h1>
+    <img id="img1" src="" alt="" style='width:200px'>
+
+    <script>
+        //思路
+        //给document.body设置一个ondrop事件
+        //  要获取你拖进来的这个文件(图片)
+        //  根据这个文件生成一个url
+        //  把这个url赋值给img的src属性
+
+        //1.给document.body设置一个ondrop事件
+        document.body.ondragover = function(e){
+            e.preventDefault();
+        }
+        document.body.ondrop = function(e){
+            //console.log('11');
+            //注意: 浏览器有一个默认行为:如果丢给浏览器一个文件,那浏览器就会默认用一个新窗口打开.
+            //所以要阻止这个默认行为
+            e.preventDefault();
+
+            //2.要获取你拖进来的这个文件(图片)
+            console.log(e);
+            var file = e.dataTransfer.files[0];
+            console.log(file);
+
+            //3.根据这个文件生成一个url
+            var url = URL.createObjectURL(file);
+
+            //4.把这个url赋值给img的src属性
+            document.getElementById('img1').setAttribute('src',url);
+
+        }
+
+
+    </script>
+</body>
+
+</html>

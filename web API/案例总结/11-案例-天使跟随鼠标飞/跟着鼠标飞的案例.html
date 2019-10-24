@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>跟着鼠标飞的案例</title>
+  <style>
+    body {
+      height: 2000px;
+    }
+  </style>
+</head>
+
+<body>
+  <img src="tianshi.gif" alt="" id="img" style="position: absolute;" />
+
+
+  <script src="../Tools.js"></script>
+  <script>
+    //思路
+    //给页面设置一个鼠标移动事件 mousemove
+    // 获取鼠标当前的位置(页面左上角距离鼠标当前这点的位置)
+    // 把这个坐标(x,y) 作为小天使的定位的left和top值.
+
+    //1.获取元素
+    var angel = document.getElementById('img');
+    //2.给页面设置一个鼠标移动事件
+    window.onmousemove = function(e){
+      e = e ||window.event;
+      var pageX = getEventPageXY().pageX;
+      var pageY = getEventPageXY().pageY;
+      //把这个坐标(x,y) 作为小天使的定位的left和top值.
+      angel.style.left = pageX+'px';
+      angel.style.top = pageY+'px';
+    }
+
+  </script>
+</body>
+
+</html>

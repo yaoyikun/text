@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .small {
+            width: 180px;
+        }
+
+        li {
+            float: left;
+            list-style: none;
+            margin-right: 20px;
+        }
+
+        ul {
+            width: 1000px;
+            margin: 0 auto;
+
+            height: 160px;
+
+        }
+
+        .father {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .father #bigPic {
+            width: 1000px;
+        }
+    </style>
+</head>
+
+<body>
+    <ul id="ul1">
+        <li><a href="images/01.jpg"><img src="images/01.jpg" alt="" class="small" /></a></li>
+        <li><a href="images/02.jpg"><img src="images/02.jpg" alt="" class="small" /></a></li>
+        <li><a href="images/03.jpg"><img src="images/03.jpg" alt="" class="small" /></a></li>
+        <li><a href="images/04.jpg"><img src="images/04.jpg" alt="" class="small" /></a></li>
+        <li><a href="images/05.jpg"><img src="images/05.jpg" alt="" class="small" /></a></li>
+    </ul>
+
+    <div class="father">
+        <img src="images/01.jpg" alt="" id="bigPic" />
+    </div>
+
+    <script>
+        //思路:
+        //给每一个小图对应的a标签注册单机事件. 
+        //  获取当前点击的a标签的href属性值,把这个值赋值给这个大图的src属性
+        //  阻止a标签的默认跳转行为
+        
+        //1.获取元素
+        var lis = document.getElementById('ul1').children; //获取到li标签
+        var bigPic = document.getElementById('bigPic'); //大图img
+        //2.遍历li标签们
+        for(var i = 0; i<lis.length;i++){
+            //获取每一个li标签里面的a标签,注册单击事件
+            lis[i].children[0].onclick = function(e){
+                //e.preventDefault();//阻止a标签的默认跳转
+                var hrefValue = this.getAttribute('href');
+                console.log(hrefValue);
+
+                //把hrefValue值赋值给大图的src属性
+                bigPic.setAttribute('src',hrefValue);
+
+
+                return false;//阻止a标签的默认跳转事件
+            }
+
+        }
+
+    </script>
+</body>
+
+</html>

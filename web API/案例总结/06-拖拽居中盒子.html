@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>标题</title>
+  <style>
+    .father {
+      width: 200px;
+      height: 400px;
+      background-color: skyblue;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -100px;
+      margin-top:-200px;
+    }
+
+    .son {
+      width: 200px;
+      height: 100px;
+      background-color: pink;
+      cursor: move;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="father" id="father">
+    <div class="son" id="son"></div>
+  </div>
+
+  <script src="./Tools.js"></script>
+  <script>
+    //思路:
+    //1.给儿子盒子设置一个鼠标按下事件
+    //  获取当前鼠标按下的这一点,在儿子盒子中的坐标X,Y
+    //2.给页面设置一个鼠标移动事件. 
+    //  在移动最后停下那一点,获取e.pageX和e.pageY
+    //3.把这个e.pageX - x 的值赋值给大盒子的定位的left值. 
+    //  把这个e.pageY - y 的值赋值给大盒子的定位的top值. 
+
+
+    //1.获取元素
+    var father = document.getElementById('father');
+    var son = document.getElementById('son');
+    //2.给儿子盒子设置一个鼠标按下事件 mousedown
+    son.onmousedown = function (e) {
+      //console.log('按下了');
+      //获取当前鼠标按下的这一点,在儿子盒子中的坐标X,Y
+      e = e || window.event;
+      var x = getEventPageXY(e).pageX - father.offsetLeft;
+      var y = getEventPageXY(e).pageY - father.offsetTop;
+
+      //2.给页面设置一个鼠标移动事件. 
+      window.onmousemove = function (e1) {
+        //在移动最后停下那一点,获取e.pageX和e.pageY
+        var pageX = getEventPageXY(e1).pageX;
+        var pageY = getEventPageXY(e1).pageY;
+        //把这个e.pageX - x 的值赋值给大盒子的定位的left值. 
+        //把这个e.pageY - y 的值赋值给大盒子的定位的top值.
+        father.style.left = pageX - x + 100 +'px'; //把margin的值给算进来
+        father.style.top = pageY - y + 200 + 'px';
+      }
+    }
+
+    //4.鼠标弹起事件
+    son.onmouseup = function(){
+      //console.log('起来了');
+      window.onmousemove = null;
+    }
+  </script>
+</body>
+
+</html>

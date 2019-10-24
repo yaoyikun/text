@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>标题</title>
+  <style>
+    .father {
+      width: 300px;
+      height: 300px;
+      border: 20px solid #000;
+      background-color: green;
+      margin: 50px auto;
+      overflow: hidden;
+      position: relative;
+      left: 0px;
+      top: 0px;
+    }
+
+    .one {
+      width: 200px;
+      height: 200px;
+      background-color: pink;
+      margin: 100px auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="father" id="father">
+    <div class="one" id="box"></div>
+  </div>
+
+  <script src="Tools.js"></script>
+  <script>
+    //1.获取元素
+    var father = document.getElementById('father');
+    var box = document.getElementById('box');
+    //2.给box注册一个单击事件
+    box.onclick =function(e){
+      e = e || window.event;
+      //2.1 获取当前事件对象的pageX/pageY
+      var pageX = getEventPageXY().pageX;
+      var pageY = getEventPageXY().pageY;
+      //2.2 计算
+      var x = pageX - box.offsetLeft - 20 - father.offsetLeft;
+      var y = pageY - box.offsetTop - 20 - father.offsetTop;
+      //2.3 显示在box中
+      box.innerHTML = x + ":" + y;
+    }
+
+
+  </script>
+</body>
+
+</html>

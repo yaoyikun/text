@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>二维码显示和隐藏</title>
+<style>
+    #container { position: fixed; top: 40%; right: 10px; width: 50px; height: 50px; background: url("images/bgs.png") no-repeat -159px -51px; }
+    #qrcode { position: absolute; left: -210px; display: block; width: 210px; height: 210px; }
+    #qrcode > img { width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+    <div id="container">
+        <div id="qrcode">
+            <img src="images/hmewm.jpg">
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    /* 
+        需求：
+            1. 鼠标移入小盒子：显示大盒子，设置大盒子display属性为block
+            2. 鼠标移出小盒子：隐藏大盒子，设置大盒子display属性为none
+        思路：事件三要素
+            1. 获取元素
+            2. 注册事件
+            3. 事件处理
+     */
+    // 1. 获取元素
+    var container = document.querySelector('#container');
+    var qrcode = container.querySelector('#qrcode');
+
+    // 2. 注册事件
+    // 2.1 鼠标移入小盒子
+    container.onmouseover = function() {
+        // 3. 事件处理 -- 显示大盒子，设置大盒子display属性为block
+        qrcode.style.display = 'block';
+    }
+    // 2.2 鼠标移出小盒子
+    container.onmouseout = function() {
+        // 3. 事件处理 -- 隐藏大盒子，设置大盒子display属性为none
+        qrcode.style.display = 'none';
+    }
+</script>
+</html>

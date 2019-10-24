@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+        ul {
+            list-style: none
+        }
+
+        img {
+            vertical-align: top
+        }
+
+        .box {
+            width: 490px;
+            height: 170px;
+            margin: 100px auto;
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .inner {
+            width: 490px;
+            height: 170px;
+            background-color: pink;
+            /*overflow: hidden;*/
+            position: relative;
+        }
+
+        .inner ul {
+            width: 1000%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .inner li {
+            float: left;
+        }
+
+        .square {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+        }
+
+        .square span {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-color: #fff;
+            text-align: center;
+            line-height: 16px;
+            cursor: pointer;
+        }
+
+        .square span.current {
+            background-color: orangered;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box" id="box">
+        <div class="inner">
+            <ul>
+                <li><a href="#"><img src="images/01.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="images/02.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="images/03.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="images/04.jpg" alt="" /></a></li>
+                <li><a href="#"><img src="images/05.jpg" alt="" /></a></li>
+            </ul>
+            <div class="square">
+                <span class="current">1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="../animate.js"></script>
+    <script src="./jquery-1.12.4.js"></script>
+    <script>
+        //思路:
+        //1.获取对应的元素
+        //  获取移动的单位宽
+        //2.遍历右下角的所有的小按钮(右下角的span标签们)
+        //  给每一个添加索引
+        //  给每一个注册单机事件
+        //     颜色排他
+        //     获取当前点击的这个按钮的索引
+        //     根据这个索引和移动的单位宽 得到移动的目的位置
+        //     调用aimate方法进行动画
+
+
+        //1.获取对应的元素
+        var inner = document.querySelector('.inner');
+        var unitWidth = inner.offsetWidth; //移动的单位宽
+        var ul1 = inner.children[0]; //要做动画的元素ul标签
+        // var spans = document.querySelector('.square').children; //所有的按钮
+
+        //2.遍历右下角的所有的小按钮
+        // for (var i = 0; i < spans.length; i++) {
+        //      给每一个添加索引
+        //     spans[i].setAttribute('index',i);
+        //      给每一个注册单机事件
+        //     spans[i].onclick = function(){
+        //          颜色排他(当前点击的这个标签有current类,其他的兄弟span标签移除这个current类)
+        //         for(var j = 0; j<spans.length; j++){
+        //             spans[j].removeAttribute('class');
+        //         }
+        //         this.setAttribute('class','current');
+        //          获取当前点击的这个按钮的索引
+        //         var index = this.getAttribute('index');
+        //          根据这个索引和移动的单位宽 得到移动的目的位置
+        //         var target = -index * unitWidth;
+        //          调用aimate方法进行动画
+        //         animate(ul1,target);
+        //     }
+        // }
+
+//jq写法  实现简单轮播
+        var $spans = $('span');
+        $('span').each(function (index, ele) {
+            $(ele).click(function () {
+                $(ele).removeAttr('class');
+                $(this).attr('class', 'current');
+                var $index = $(this).index();
+                var target=-$index*unitWidth;
+                animate(ul1, target);
+            })
+        })
+
+
+        
+    </script>
+</body>
+
+</html>

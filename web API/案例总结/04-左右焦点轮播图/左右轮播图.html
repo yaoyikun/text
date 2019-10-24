@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body,
+        ul,
+        ol,
+        li,
+        img {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #box {
+            width: 490px;
+            height: 270px;
+            padding: 5px;
+            position: relative;
+            border: 1px solid #ccc;
+            margin: 100px auto 0;
+        }
+
+        .ad {
+            width: 490px;
+            height: 270px;
+            /*overflow: hidden;*/
+            position: relative;
+        }
+
+        #box img {
+            width: 490px;
+        }
+
+        .ad ol {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+        }
+
+        .ad ol li {
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            border: 1px solid #ccc;
+            text-align: center;
+            background: #fff;
+            float: left;
+            margin-right: 10px;
+            cursor: pointer;
+            _display: inline;
+        }
+
+        .ad ol li.current {
+            background: yellow;
+        }
+
+        .ad ul li {
+            float: left;
+        }
+
+        .ad ul {
+            position: absolute;
+            top: 0;
+            width: 2940px;
+        }
+
+        .ad ul li.current {
+            display: block;
+        }
+
+        #arr {
+            display: none;
+        }
+
+        #arr span {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            margin-top: -20px;
+            background: #000;
+            cursor: pointer;
+            line-height: 40px;
+            text-align: center;
+            font-weight: bold;
+            font-family: '黑体';
+            font-size: 30px;
+            color: #fff;
+            opacity: 0.3;
+            border: 1px solid #fff;
+        }
+
+        #arr #right {
+            right: 5px;
+            left: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box" class="all">
+        <div class="ad">
+            <ul id="imgs">
+                <li><img src="images/1.jpg" /></li>
+                <li><img src="images/2.jpg" /></li>
+                <li><img src="images/3.jpg" /></li>
+                <li><img src="images/4.jpg" /></li>
+                <li><img src="images/5.jpg" /></li>
+            </ul>
+        </div>
+
+        <div id="arr">
+            <span id="left">&lt;</span>
+            <span id="right">&gt;</span>
+        </div>
+    </div>
+
+    <script src="../animate.js"></script>
+    <script>
+        //获取事件源
+        var bbox=document.querySelector('#box');
+        var sbox=document.querySelector('.ad');
+        var unitWidth=sbox.offsetWidth;
+        var ul=document.querySelector('#imgs');
+        var arr=document.querySelector('#arr');
+        var right=document.querySelector('#right');
+        var left=document.querySelector('#left');
+        //大盒子鼠标移入事件
+        bbox.onmouseover=function(){
+            arr.style.display='block';
+        }
+        //大盒子移出事件
+        bbox.onmouseout=function(){
+            arr.style.display='none';
+        }
+
+        var index=0;//记录图片移出数量
+        right.onclick=function(){//右箭头点击事件
+            if(index==4){//判断移出张数是否==4,停止
+                return;
+            }
+            index++;//index递增
+            var target=-index*unitWidth; //获取目标位置
+            animate(ul,target);//导入动画
+        }
+        left.onclick=function(){
+            if(index==0){
+                return;
+            }
+            index--;
+            var target=-index*unitWidth;
+            animate(ul,target);
+        }
+    </script>
+</body>
+
+</html>

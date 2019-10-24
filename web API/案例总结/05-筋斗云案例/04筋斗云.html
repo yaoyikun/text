@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>筋斗云动态效果</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    body {
+      background-color: #333;
+    }
+
+    .nav {
+      width: 800px;
+      height: 42px;
+      margin: 100px auto;
+      /*background-color: red;*/
+      background: #fff url(images/rss.png) no-repeat right center;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .nav li {
+      width: 83px;
+      height: 42px;
+      /*background-color: red;*/
+      text-align: center;
+      line-height: 42px;
+      float: left;
+      cursor: pointer;
+    }
+
+    ul {
+      position: relative;
+    }
+
+    .nav span {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 83px;
+      height: 42px;
+      background: url(images/cloud.gif) no-repeat;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="nav">
+    <span id="cloud"></span>
+    <ul id="navBar">
+      <li>北京校区</li>
+      <li>上海校区</li>
+      <li>广州校区</li>
+      <li>深圳校区</li>
+      <li>武汉校区</li>
+      <li>关于我们</li>
+      <li>联系我们</li>
+      <li>招贤纳士</li>
+    </ul>
+  </div>
+  
+  <script>
+    //思路
+    //每一个li标签都有三个事件
+    //1.鼠标移入事件
+    //      获取当前鼠标移入的这个li标签的offsetLeft,用来作为云朵定位的left值. 
+    //2.鼠标移出事件
+    //      让云朵回到初始位置(一开始的初始位置为0)
+    //3.鼠标点击事件
+    //      修改初始位置为当前点击的这个li标签的offsetLeft.
+
+
+    //1.获取元素
+    var cloud=document.querySelector('#cloud');
+    var lis=document.querySelector('#navBar').children;
+    var startplace=0;
+    for(var i=0;i<lis.length;i++){
+        lis[i].onmouseover=function(){
+            animate(cloud,this.offsetLeft);
+        }
+        lis[i].onmouseout=function(){
+            animate(cloud,startplace);
+        }
+        lis[i].onclick=function(){
+            startplace=this.offsetLeft;
+        }
+    }
+    function animate(obj,target){
+        clearInterval(obj.timeId);
+        obj.timeId= setInterval(function(){
+            var place=obj.offsetLeft;
+            var step=target>place?Math.ceil((target-place)/10):Math.floor((target-place)/10);
+            place+=step;
+            if(place==target){
+                clearInterval(obj.timeId);
+            }else{
+                obj.style.left=place+'px';
+            }
+        },50)
+    }
+  </script>
+</body>
+
+</html>

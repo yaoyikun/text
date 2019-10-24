@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>口味选择：排他思想</title>
+<style>
+    body { text-align: center; }
+    button { background-color: #f1eed0; margin: 15px; padding: 10px 20px; border: none; outline: none; font-size: 24px; cursor: pointer; }
+</style>
+</head>
+<body>
+    <h1>口味选择</h1>
+    <button>不辣</button>
+    <button>微辣</button>
+    <button>中辣</button>
+    <button>很辣</button>
+    <button>特辣</button>
+</body>
+<script type="text/javascript">
+    /*
+        需求：
+            1. 点击任意一个按钮，改变按钮的背景颜色（#f3abaa）
+            2. 一组按钮中只能有一个按钮是选中状态，其他按钮要回复原状
+
+        实际应用场景：比如美团购买餐厅套餐，主食三选一，凉菜六选一等
+
+        本小节知识点：
+            1. 使用循环同时给多个按钮添加事件
+                * 由于这个事件响应函数并不是立马执行，而是用户点击之后才会执行，所以在函数体中获取循环变量 i 得到的永远都是数组的长度
+            2. 使用排他思想实现一组按钮只能选中某个的功能
+                * 排他思想：遍历数组中所有元素，如果不是当前点击的这一个，则修改成默认样式
+     */
+    
+    // 1. 获取元素
+    var btns = document.querySelectorAll('button');
+    // console.log(btns); // NodeList(5) [button, button, button, button, button]
+    // 2. 遍历数组，对每一个按钮注册事件
+    for (var i = 0; i < btns.length; i ++) {
+        // 3. 注册事件
+        btns[i].onclick = function() {
+            // 4. 点击任意一个按钮，改变按钮的背景颜色（#f3abaa）
+            /*
+                说明：事件处理函数是一段绑定到事件类型中的函数，里面的代码不会立刻执行，而是在触发该事件的时候才会执行
+                      在事件处理函数中的代码等待执行的时候，循环体并不会等待，而是会继续执行
+                      所以在事件处理函数被调用的时候，循环已经结束了，所以 i 的值为当前数组的长度
+            */
+            // this 关键字永远指向触发该事件的事件源，所以不会受到 i 变量的影响
+            this.style.backgroundColor = '#f3abaa';
+            // 5. 一组按钮中只能有一个按钮是选中状态，其他按钮要回复原状
+            for (var j = 0; j < btns.length; j ++) {
+                // 遍历所有元素，将当前元素排除，操作其他元素
+                if (btns[j] != this) {
+                    btns[j].style.backgroundColor = ''; // 空字符串代表将css值还原
+                }
+            }
+        }
+    }
+</script>
+</html>

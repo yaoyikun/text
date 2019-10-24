@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>模拟搜索框</title>
+<style type="text/css">
+    .wrap { position: fixed; top: 0; right: 0; bottom: 0; left: 0; width: 640px; height: 500px; margin: auto; }
+    .wrap > h1 { text-align: center; }
+    .wrap > div { display: flex; justify-content: space-between; margin-bottom: 25px; }
+    .wrap > div > input { flex: 1; }
+    .wrap > div > button { width: 100px; background: #abcdef; border: none; padding: 10px; cursor: pointer; color: #fff; }
+</style>
+</head>
+<body>
+    <div class="wrap">
+        <h1>传智搜索</h1>
+        <div>
+            <!-- 
+                type="search"，自动在输入框的末端添加清空输入按钮，
+                该类型是html5新增加的输入框类型，IE9及以上浏览器可以兼容，IE8及以下浏览器，会自动转成type="text"的输入框 
+            -->
+            <input type="search" value="请输入搜索关键字">
+            <button id="login">传智一下</button>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    /*
+        需求：
+            1. 输入框成为焦点：如果是默认文字，则清空
+            2. 输入框失去焦点：如果没有输入，则显示默认文字
+        思路：事件三要素
+            1. 获取元素
+            2. 注册事件
+            3. 事件处理
+
+        表单输入框有两个特殊的事件（焦点事件）
+            1. 成为焦点 onfocus:出现光标，此时可以输入文字
+            2. 失去焦点 onblur:光标消失，此时不能输入文字
+    */
+
+    // 1. 获取元素
+    var input = document.querySelector('input');
+
+    // 2.注册事件
+    // 2.1 成为焦点
+    input.onfocus = function() {
+        // 3. 做什么 -- 如果是默认文字，则清空
+        if (input.value == '请输入搜索关键字') {
+            input.value = '';
+        }
+    }
+    // 2.2 失去焦点
+    input.onblur = function() {
+        // 3. 做什么 -- 如果没有输入，则显示默认文字
+        if (input.value == '') {
+            input.value = '请输入搜索关键字';
+        }
+    }
+</script>
+</html>

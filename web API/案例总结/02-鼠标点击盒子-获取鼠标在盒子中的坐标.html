@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>标题</title>
+  <style>
+    * {
+      margin:  0px;
+      padding: 0px;
+    }
+    .one {
+      width: 200px;
+      height: 200px;
+      background-color: pink;
+      margin: 100px auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="one" id="box"></div>
+
+  <script src="Tools.js"></script>
+  <script>
+    //1.获取元素
+    var box = document.getElementById('box');
+    //2.给盒子设置一个鼠标单击事件
+    box.onclick = function(e){
+      e = e || window.event;
+      //2.1 获取当前鼠标点击的这一点的e.pageX/e.pageY
+      var pageX = getEventPageXY().pageX;
+      var pageY = getEventPageXY().pageY;
+      //2.2 计算
+      var x = pageX - box.offsetLeft;
+      var y = pageY - box.offsetTop;
+      //2.3 把这个xy显示在box盒子中
+      box.innerHTML = x +":" + y;
+    }
+  </script>
+</body>
+
+</html>

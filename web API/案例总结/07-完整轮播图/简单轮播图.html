@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <style type="text/css">
+    * {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      border: 0;
+    }
+
+    .all {
+      width: 500px;
+      height: 200px;
+      padding: 7px;
+      border: 1px solid #ccc;
+      margin: 100px auto;
+      position: relative;
+    }
+
+    .screen {
+      width: 500px;
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .screen li {
+      width: 500px;
+      height: 200px;
+      overflow: hidden;
+      float: left;
+    }
+
+    .screen ul {
+      position: absolute;
+      left: 0;
+      top: 0px;
+      width: 3000px;
+    }
+
+    .all ol {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      line-height: 20px;
+      text-align: center;
+    }
+
+    .all ol li {
+      float: left;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border: 1px solid #ccc;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    .all ol li.current {
+      background: yellow;
+    }
+
+    #arr {
+      display: none;
+    }
+
+    #arr span {
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      left: 5px;
+      top: 50%;
+      margin-top: -20px;
+      background: #000;
+      cursor: pointer;
+      line-height: 40px;
+      text-align: center;
+      font-weight: bold;
+      font-family: '黑体';
+      font-size: 30px;
+      color: #fff;
+      opacity: 0.3;
+      border: 1px solid #fff;
+    }
+
+    #arr #right {
+      right: 5px;
+      left: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="all" id='box'>
+    <div class="screen">
+      <ul>
+        <li><img src="images/1.jpg" width="500" height="200" /></li>
+        <li><img src="images/2.jpg" width="500" height="200" /></li>
+        <li><img src="images/3.jpg" width="500" height="200" /></li>
+        <li><img src="images/4.jpg" width="500" height="200" /></li>
+        <li><img src="images/5.jpg" width="500" height="200" /></li>
+      </ul>
+      <ol>
+        <!-- 动态创建的小方块，添加在这里，样式已经给写好了-->
+      </ol>
+    </div>
+    <div id="arr">
+      <span id="left">&lt;</span>
+      <span id="right">&gt;</span>
+    </div>
+  </div>
+
+
+  <script src="../animate.js"></script>
+  <script>
+    var bbox=document.querySelector('#box');
+    var sbox=document.querySelector('.screen');
+    var ul=sbox.children[0];
+    var listUl=ul.children;
+    var ol=sbox.children[1];
+    var arr=document.querySelector('#arr');
+    var right=document.querySelector('#right');
+    var left=document.querySelector('#left');
+    var unitWidth=sbox.offsetWidth;
+    
+    for(var i=0;i<listUl.length;i++){
+        var liNew=document.createElement('li');
+        liNew.innerHTML=i+1;
+        ol.appendChild(liNew);
+    }
+    var listOl=ol.children;
+    listOl[0].setAttribute('class','current');
+    //简单轮播
+    for(var i=0;i<listOl.length;i++){
+        listOl[i].setAttribute('index',i);
+        listOl[i].onclick=function(){
+            for(var j=0;j<listOl.length;j++){
+                listOl[j].removeAttribute('class');
+            }
+            this.setAttribute('class','current');
+            var index=this.getAttribute('index');
+            var target=-index*unitWidth;
+            animate(ul,target);
+            picIndex=liIndex=this.getAttribute('index');
+        }
+    }
+    bbox.onmouseover=function(){
+        arr.style.display='block';
+        clearInterval(timeId);
+    }
+    bbox.onmouseout=function(){
+        arr.style.display='none';
+        timeId=setInterval(nextPic,4000);
+    }
+    var picIndex = 0;
+    ul.appendChild(listUl[0].cloneNode(true));
+    var liIndex = 0;
+
+
+    right.onclick=function(){
+        nextPic();
+    }
+    
+    function nextPic(){
+        if(picIndex==5){
+            picIndex=0;
+            ul.style.left='0px';
+        }
+        picIndex++;
+        var target=-picIndex*unitWidth;
+        animate(ul,target);
+        
+        for(var i=0;i<listOl.length;i++){
+            listOl[i].removeAttribute('class');
+        }
+        liIndex++;
+        if(liIndex==5){
+            liIndex=0;
+        }
+        listOl[liIndex].setAttribute('class','current');
+    }
+    left.onclick=function(){
+        if(picIndex==0){
+            picIndex=5;
+            ul.style.left=-(5*unitWidth)+'px';
+        }
+        picIndex--;
+        var target=-picIndex*unitWidth;
+        animate(ul,target);
+        for(var i=0;i<listOl.length;i++){
+            listOl[i].removeAttribute('class');
+        }
+        liIndex--;
+        if(liIndex<0){
+            liIndex=4;
+        }
+        listOl[liIndex].setAttribute('class','current');
+    }
+    var timeId=setInterval(nextPic,4000);
+
+  </script>
+</body>
+
+</html>

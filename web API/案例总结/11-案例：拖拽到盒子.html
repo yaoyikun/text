@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: absolute;
+        }
+
+        #container {
+            width: 500px;
+            height: 600px;
+            border: 2px solid black;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box" draggable="true"></div>
+    <div id="container"></div>
+
+    <script>
+        //思路
+        //给容器盒子设置一个ondrop事件
+        //  不要忘记在ondragover事件里面阻止默认行为 
+        //把拖拽的盒子追加到容器中. 
+
+        //1.获取元素
+        var box = document.getElementById('box'); //要拖拽的盒子
+        var container = document.getElementById('container'); //容器
+
+        //2.给容器设置一个ondragover事件
+        container.ondragover = function(e){
+            e.preventDefault(); //阻止默认行为
+        }
+
+        //3.给容器设置ondrop事件 
+        container.ondrop = function(){
+            //this 此时this就是这个容器
+            this.appendChild(box);
+        }
+    
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 350px;
+            height: 550px;
+            border: 1px solid #000;
+            position: absolute;
+            top: 20px;
+        }
+
+        .right {
+            right: 20px;
+        }
+
+        img {
+            width: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="left">
+        <img src="images/1.jpg" alt="">
+        <img src="images/2.jpg" alt="">
+        <img src="images/3.jpg" alt="">
+        <img src="images/4.jpg" alt="">
+        <img src="images/5.jpg" alt="">
+    </div>
+    <div class="right"></div>
+
+    <script>
+        //思路
+        //1.給这个每一个img(图片)设置一个ondragstart事件
+        //  用一个东西记录你当前拖拽的是哪一个图片
+        //2.给这两个容器(class为left/class为right)都设置ondrop事件
+        //  把当前拖拽的这个img给追加进来 
+
+
+        //1.获取元素
+        var left = document.querySelector('.left');
+        var right = document.querySelector('.right');
+        var imgs = document.querySelectorAll('img'); 
+
+        //声明一个变量,用来记录当前拖动的这个图片
+        var currentImg = null; 
+
+        //2.給这个每一个img(图片)设置一个ondragstart事件
+        for(var i = 0; i<imgs.length;i++){
+            imgs[i].ondragstart = function(){
+                //用一个全局变量来记录当前被拖动的元素
+                currentImg = this;
+                console.log(currentImg);
+            }
+        }
+
+
+        //3.给右边那个容器设置一个ondrop事件
+        right.ondragover = function(e){
+            e.preventDefault();
+        }
+        right.ondrop = function(){
+            this.appendChild(currentImg);
+        }
+
+
+        //4.给左边那个容器也设置一个ondrop事件
+        left.ondragover = function(e){
+            e.preventDefault();
+        }
+        left.ondrop = function(){
+            this.appendChild(currentImg);
+        }
+
+
+    </script>
+</body>
+
+</html>

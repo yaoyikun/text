@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>标题</title>
+  <style>
+    .one {
+      width: 200px;
+      height: 200px;
+      background-color: pink;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      cursor: move;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="one" id="box"></div>
+
+
+  <script src="./Tools.js"></script>
+  <script>
+    //思路
+    //1.给页面设置一个鼠标移动事件 mousemove
+    //  通过事件对象e获取 e.pageX和e.pageY (有兼容性,要通过封装的函数获取)
+    //  把这个两个值分别赋值给这个盒子的定位的left和top的值 . 
+
+    //1.获取元素
+    var box = document.getElementById('box');
+    //2.给页面设置一个鼠标移动事件 mousemove
+    window.onmousemove = function(e){
+      e = e || window.event;
+      //通过事件对象e获取 e.pageX和e.pageY (有兼容性,要通过封装的函数获取)
+      var pageX = getEventPageXY().pageX;
+      var pageY = getEventPageXY().pageY;
+
+      //如果希望当前鼠标是在盒子的正中心,那就通过当前鼠标的位置计算出另一个位置出来
+      var x = pageX- box.offsetWidth/2;
+      var y = pageY -box.offsetHeight/2;
+
+      //把这个两个值分别赋值给这个盒子的定位的left和top的值 . 
+      box.style.left = x + 'px';
+      box.style.top = y + 'px';
+
+    }
+   
+  </script>
+</body>
+
+</html>

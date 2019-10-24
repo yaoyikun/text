@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-size: 20px;
+        }
+
+        .box {
+            width: 600px;
+            height: 40px;
+            margin: 200px auto;
+            position: relative;
+        }
+
+        #txt {
+            width: 498px;
+            height: 38px;
+            border: 1px solid #eee;
+            font-size: 20px;
+        }
+
+        #search {
+            width: 100px;
+            height: 40px;
+        }
+
+        #keywords {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            background-color: rgb(12, 255, 24);
+            list-style: none;
+            width: 500px;
+            ;
+        }
+
+        li {
+            line-height: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="top">
+            <input type="text" id="txt" /><input type="button" value="search" id="search" />
+        </div>
+        <ul id="keywords"></ul>
+    </div>
+    <script>
+        //键盘弹起事件onkeyup  键盘按下事件 onkeydown
+
+        var keywords = ["王宝强", "王宝强的经纪人", "王宝强的老婆", "林丹出轨门", "林丹夺冠", "123", "1234", "2341", "林丹的生平", "JavaScript",
+            "Java", "思聪" ,"王思聪" ,"吃热狗的思聪" ,"思聪的新女友"
+        ];
+
+        //思路:
+        //1.给文本输入框设置一个键盘弹起事件
+        //  获取当前用户输入的文本(王)
+        //2.遍历keywords这个数组,拿到这个数组的每一个元素. 
+        //  判断这每一个元素里面是否包含 用户输入的文本
+        //  如果包含,那当前这个数组元素就应该显示在输入框下方
+        //      新创建一个li标签,把这个li标签追加到ul中.
+        //          这新创建的li标签有三个事件(鼠标移入,鼠标移出,点击)
+
+
+        //1.获取元素
+        var txtInput = document.getElementById('txt'); //文本输入框
+        var ul1 = document.getElementById('keywords'); //ul标签
+
+        //2.给文本输入框设置一个键盘弹起事件
+        txtInput.onkeyup = function () {
+            //获取当前用户输入的文本(王)
+            var content = this.value.trim(); //trim去掉字符串的前后空格
+
+            //如果输入的内容为空,就不要往后执行了
+            if (content == '') {
+                //用户输入的内容为空的时候,也要把ul标签的内容给清空
+                ul1.innerHTML = "";
+                return;
+            }
+
+            //每次判断生成新的li标签之前,把原来的给清空掉
+            ul1.innerHTML = "";
+
+            //3.遍历keywords这个数组,拿到这个数组的每一个元素. 
+            for (var i = 0; i < keywords.length; i++) {
+                //判断这每一个元素里面是否包含 用户输入的文本
+                if (keywords[i].indexOf(content) != -1) {
+                    //说明keywords[i]中包含content. 
+                    //新创建一个li标签,li标签的文本就是这个keywords[i], 把这个li标签追加到ul中
+                    var liNew = document.createElement('li');
+                    liNew.innerHTML = keywords[i];
+                    ul1.appendChild(liNew);
+
+                    //声明一个变量,用来记录li标签原来的颜色. 
+                    // var bgColor = null;
+                    //给这个新创建的li标签注册一个鼠标移入事件
+                    liNew.onmouseover = function () {
+                        //鼠标刚移入到li标签中,还没有改变颜色之前,就把原来的颜色给保存一下. 
+                        // bgColor = this.style.backgroundColor;
+                        //再把当前鼠标移入的这个li标签的颜色给修改成红色
+                        this.style.backgroundColor = 'red';
+                    }
+                    //鼠标移出事件
+                    liNew.onmouseout = function () {
+                        this.style.backgroundColor = '';
+                    }
+                    //鼠标单击事件
+                    liNew.onclick = function () {
+                        //获取当前点击的这个li标签的文本,赋值给文本输入框
+                        txtInput.value = this.innerHTML;
+                        //清空ul
+                        ul1.innerHTML = "";
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+
+        //回忆一下indexOf
+        // var str = '宋吉吉';
+        // var str2 = '王宝强的老婆';
+        // var res = str2.indexOf(str);
+        // console.log(res);
+
+
+        // var str = "";
+        // var str2 = "sbsbsb";
+        // var res = str2.indexOf(str);
+        // console.log(res);
+    </script>
+</body>
+
+</html>

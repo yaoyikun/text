@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body,
+        ul,
+        ol,
+        li,
+        img {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #box {
+            width: 490px;
+            height: 270px;
+            padding: 5px;
+            position: relative;
+            border: 1px solid #ccc;
+            margin: 100px auto 0;
+        }
+
+        .ad {
+            width: 490px;
+            height: 270px;
+            /*overflow: hidden;*/
+            position: relative;
+        }
+
+        #box img {
+            width: 490px;
+        }
+
+        .ad ol {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+        }
+
+        .ad ol li {
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            border: 1px solid #ccc;
+            text-align: center;
+            background: #fff;
+            float: left;
+            margin-right: 10px;
+            cursor: pointer;
+            _display: inline;
+        }
+
+        .ad ol li.current {
+            background: yellow;
+        }
+
+        .ad ul li {
+            float: left;
+        }
+
+        .ad ul {
+            position: absolute;
+            top: 0;
+            width: 2940px;
+        }
+
+        .ad ul li.current {
+            display: block;
+        }
+
+        #arr {
+            display: none;
+        }
+
+        #arr span {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            margin-top: -20px;
+            background: #000;
+            cursor: pointer;
+            line-height: 40px;
+            text-align: center;
+            font-weight: bold;
+            font-family: '黑体';
+            font-size: 30px;
+            color: #fff;
+            opacity: 0.3;
+            border: 1px solid #fff;
+        }
+
+        #arr #right {
+            right: 5px;
+            left: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box" class="all">
+        <div class="ad">
+            <ul id="imgs">
+                <li><img src="images/1.jpg" /></li>
+                <li><img src="images/2.jpg" /></li>
+                <li><img src="images/3.jpg" /></li>
+                <li><img src="images/4.jpg" /></li>
+                <li><img src="images/5.jpg" /></li>
+            </ul>
+        </div>
+
+        <div id="arr">
+            <span id="left">&lt;</span>
+            <span id="right">&gt;</span>
+        </div>
+    </div>
+
+    <script src="../animate.js"></script>
+    <script>
+        //思路
+        //0.获取对应的元素
+        //  获取移动的单位宽
+        //1.给大盒子设置鼠标移入移除事件
+        //  让左右焦点盒子显示/隐藏
+        //2.给右边焦点设置点击事件
+        //  移动出去的数量++
+        //  计算出移动的目标位置
+        //  调用animate方法做动画
+        //3.给左边焦点设置点击事件
+        //  移动出去的数量--
+        //  计算出移动的目标位置
+        //  调用animate方法做动画
+
+
+        //实现
+        //1.获取对应元素
+        var box = document.getElementById('box'); //整个大盒子
+        var adBox = document.querySelector('.ad');
+        var unitWidth = adBox.offsetWidth; //移动的单位宽
+        var ul1 = document.getElementById('imgs'); //做动画的ul标签
+        var arr = document.getElementById('arr'); //左右焦点盒子
+        var left = document.getElementById('left'); //左焦点
+        var right = document.getElementById('right'); //右焦点
+
+        //2.给大盒子设置鼠标移入移除事件
+        //  让左右焦点盒子显示/隐藏
+        box.onmouseover = function () {
+            arr.style.display = 'block';
+        }
+        box.onmouseout = function () {
+            arr.style.display = 'none';
+        }
+
+        var picIndex = 0;//声明一个变量,用来记录移动出去的图片的个数
+
+        //3.给右边焦点设置点击事件
+        right.onclick = function () {
+            //判断
+            if(picIndex == 4){
+                return;
+            }
+            //  移动出去的数量++
+            picIndex++;
+            console.log(picIndex);
+            //  计算出移动的目标位置
+            var target = -picIndex * unitWidth;
+            //  调用animate方法做动画
+            animate(ul1,target);
+        }
+
+        //4.给左边焦点设置点击事件
+        left.onclick = function () {
+            //判断
+            if(picIndex == 0){
+                return;
+            }
+            //  移动出去的数量--
+            picIndex--;
+            console.log(picIndex);
+            //  计算出移动的目标位置
+            var target = -picIndex * unitWidth;
+            //  调用animate方法做动画
+            animate(ul1,target);
+        }
+
+    </script>
+</body>
+
+</html>

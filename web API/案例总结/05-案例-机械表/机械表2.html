@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .clock {
+            width: 600px;
+            height: 600px;
+            margin: 100px auto;
+            background: url(images/clock.jpg) no-repeat;
+            position: relative;
+        }
+
+        .clock div {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url(images/hour.png) no-repeat center center;
+        }
+
+        #m {
+            background-image: url(images/minute.png);
+        }
+
+        #s {
+            background-image: url(images/second.png);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="clock">
+        <div id="h"></div>
+        <div id="m"></div>
+        <div id="s"></div>
+    </div>
+    <script>
+        //transform: rotate(6deg);//旋转多少度
+        //思路:
+        //有一个计时器,间隔时间1秒钟
+        //获取当前系统时间
+        //根据当前系统时间计算出旋转的角度
+        //    1秒钟是旋转6度,如果当前是30秒,那你的秒针就应该旋转180度. 
+        //    1分钟是旋转6度. 
+        //    1小时是旋转30度
+        //把旋转的角度赋值给时分秒对应的div
+
+        //实现
+        //1.获取对应的元素
+        var hDiv = document.getElementById('h'); //时div
+        var mDiv = document.getElementById('m'); //分div
+        var sDiv = document.getElementById('s'); //秒div
+
+        //页面一进来就应该获取时间,设置旋转的角度
+        showTime();
+
+        //2.设置计时器
+        setInterval(showTime, 100);
+
+
+        //把每一秒钟要做的事情,提炼出一个函数.
+        function showTime() {
+            //2.1 获取当前系统时间
+            var date = new Date();
+            var h = date.getHours();//时
+            var m = date.getMinutes(); //分
+            var s = date.getSeconds(); //秒
+            var hs = date.getMilliseconds(); //毫秒
+            //2.2 根据当前系统时间计算出旋转的角度
+            var hDeg = (h+ m/60) * 30; //时针应该旋转的角度  4:30
+            var mDeg = (m + s/60) * 6;  //分针应该旋转的角度
+            var sDeg = (s + hs/1000) * 6;   //秒针应该旋转的角度
+            //2.3 把旋转的角度赋值给时分秒对应的div
+            hDiv.style.transform = "rotate("+hDeg+"deg)";
+            mDiv.style.transform = "rotate("+mDeg+"deg)";
+            sDiv.style.transform = "rotate("+sDeg+"deg)";
+        }
+    </script>
+</body>
+
+</html>

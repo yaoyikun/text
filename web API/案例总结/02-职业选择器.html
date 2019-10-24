@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>职业选择器</title>
+<style type="text/css">
+    select { width: 200px; height: 270px; }
+    option { font-size: 24px; }
+</style>
+</head>
+<body>
+    <select id="left" multiple>
+        <option>Web前端工程师</option>
+        <option>Web后端工程师</option>
+        <option>Android工程师</option>
+        <option>IOS工程师</option>
+        <option>PHP工程师</option>
+        <option>Nodejs工程师</option>
+        <option>Python工程师</option>
+        <option>全栈工程师</option>
+    </select>
+    
+    <button id="leftAll">&lt;&lt;</button>
+    <button id="leftOne">&lt;</button>
+    <button id="rightOne">&gt;</button>
+    <button id="rightAll">&gt;&gt;</button>
+    
+    <select id="right" multiple>
+    </select>
+</body>
+<script type="text/javascript">
+    /*
+        需求分析：
+            1. 点击 <<：将右边所有的内容移动到左边
+            2. 点击 >>：将左边所有的内容移动到右边
+            3. 点击 <：将右边选中的内容移动到左边
+            4. 点击 >：将左边选中的内容移动到右边
+     */
+
+    // 0. 获取元素
+    // 0.1 获取按钮元素
+    var leftAll = document.querySelector('#leftAll');
+    var leftOne = document.querySelector('#leftOne');
+    var rightOne = document.querySelector('#rightOne');
+    var rightAll = document.querySelector('#rightAll');
+    // 0.2 获取下拉元素
+    var left = document.querySelector('#left');
+    var right = document.querySelector('#right');
+
+    // 1. 点击 <<：将右边所有的内容移动到左边
+    leftAll.onclick = function () {
+        // 获取右边的所有子元素节点
+        var children = right.children;
+        console.log(children);
+        // 遍历 children，将每一个 option 移动到左边
+        for (var i = 0; i < children.length;) { // 因为每一次移动之后，数组的长度都会 - 1，并且所有的元素的下标都会 - 1，所以不需要自增
+            // 将每一个 option 移动到左边
+            left.appendChild(children[0]); // 因为都是移动的第一个元素（下标为0的元素）,所以只需要移动第一个（下标为0的那个元素）需要要用i
+        }
+        // while(right.children.length) {
+        //     left.appendChild(right.firstElementChild);
+        // }
+    }
+
+    // 2. 点击 >>：将左边所有的内容移动到右边
+    rightAll.onclick = function () {
+        var children = left.children;
+        for (var i = 0; i < children.length;) {
+            right.appendChild(children[0]);
+        }
+    }
+
+    // 3. 点击 <：将右边选中的内容移动到左边
+    leftOne.onclick = function () {
+        var children = right.children;
+        for (var i = 0; i < children.length; i ++) {
+            if (children[i].selected) {
+                left.appendChild(children[i]);
+                i --;
+            }
+        }
+    }
+
+    // 4. 点击 >：将左边选中的内容移动到右边
+    rightOne.onclick = function () {
+        var children = left.children;
+        for (var i = 0; i < children.length; i ++) {
+            if (children[i].selected) {
+                right.appendChild(children[i]);
+                i --;
+            }
+        }
+    }
+</script>
+</html>

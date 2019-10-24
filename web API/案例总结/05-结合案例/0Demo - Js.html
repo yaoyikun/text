@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body,
+        ul,
+        ol,
+        li,
+        img {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #box {
+            width: 490px;
+            height: 270px;
+            padding: 5px;
+            position: relative;
+            border: 1px solid #ccc;
+            margin: 100px auto 0;
+        }
+
+        .ad {
+            width: 490px;
+            height: 270px;
+            /*overflow: hidden;*/
+            position: relative;
+        }
+
+        #box img {
+            width: 490px;
+        }
+
+        .ad ol {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+        }
+
+        .ad ol li {
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            border: 1px solid #ccc;
+            text-align: center;
+            background: #fff;
+            float: left;
+            margin-right: 10px;
+            cursor: pointer;
+            _display: inline;
+        }
+
+        .ad ol li.current {
+            background: yellow;
+        }
+
+        .ad ul li {
+            float: left;
+        }
+
+        .ad ul {
+            position: absolute;
+            top: 0;
+            width: 2940px;
+        }
+
+        .ad ul li.current {
+            display: block;
+        }
+
+        #arr {
+            display: none;
+        }
+
+        #arr span {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            margin-top: -20px;
+            background: #000;
+            cursor: pointer;
+            line-height: 40px;
+            text-align: center;
+            font-weight: bold;
+            font-family: '黑体';
+            font-size: 30px;
+            color: #fff;
+            opacity: 0.3;
+            border: 1px solid #fff;
+        }
+
+        #arr #right {
+            right: 5px;
+            left: auto;
+        }
+
+        .square {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+        }
+
+        .square span {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: #c0c6ff;
+            text-align: center;
+            line-height: 20px;
+            cursor: pointer;
+        }
+
+        .square span.current {
+            background-color: orangered;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box" class="all">
+        <div class="ad">
+            <ul id="imgs">
+                <li><img src="images/1.jpg" /></li>
+                <li><img src="images/2.jpg" /></li>
+                <li><img src="images/3.jpg" /></li>
+                <li><img src="images/4.jpg" /></li>
+                <li><img src="images/5.jpg" /></li>
+            </ul>
+            <div class="square">
+                <span class="current">1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+            </div>
+        </div>
+
+        <div id="arr">
+            <span id="left">&lt;</span>
+            <span id="right">&gt;</span>
+        </div>
+    </div>
+
+
+    <script src="../animate.js"></script>
+    <script>
+        //思路
+        //1.获取对应的元素
+        //  获取移动的单位宽
+        //2.简单轮播
+        //  遍历右下角的每一个小按钮
+        //     给每一个小按钮添加索引
+        //     给每一个小按钮注册单击事件
+        //         颜色排他
+        //         获取当前点击的小按钮的索引
+        //         根据这个索引和移动的单位宽 得到移动的目的位置
+        //         调用animate方法做动画
+        //         注意: *****
+        //              把picIndex的值和当前点击的小方块的索引给 匹配起来. 
+        //3.左右焦点轮播
+        //  给大盒子设置鼠标移入移出事件(显示/隐藏左右焦点)
+        //  给右边焦点设置单击事件
+        //      判断
+        //      让移动出去的图片个数++
+        //      根据移动出去的个数 和 移动的单位宽 得到移动的目标位置
+        //      调用animate方法做动画
+        //      让右下角对应的小方块显示颜色,其他的不显示颜色.
+        //  给左边焦点设置点击事件
+        //      判断
+        //      让移动出去的图片个数--
+        //      根据移动出去的个数 和 移动的单位宽 得到移动的目标位置
+        //      调用animate方法做动画
+        //      让右下角对应的小方块显示颜色,其他的不显示颜色.
+
+
+        //1.获取对应的元素
+        var box = document.getElementById('box'); //大盒子
+        var adBox = document.querySelector('.ad');
+        var unitWidth = adBox.offsetWidth; //移动的单位宽
+        var ul1 = document.getElementById('imgs'); //做动画的元素ul
+        var spans = document.querySelector('.square').children; //右下角按钮们
+        var arr = document.getElementById('arr'); //左右焦点大盒子
+        var left = document.getElementById('left'); //左边焦点
+        var right = document.getElementById('right'); //右边焦点
+
+        //2.简单轮播
+        //  遍历右下角的每一个小按钮
+        for (var i = 0; i < spans.length; i++) {
+            //  给每一个小按钮添加索引
+            spans[i].setAttribute('index', i);
+            //  给每一个小按钮注册单击事件
+            spans[i].onclick = function () {
+                //  颜色排他
+                for (var j = 0; j < spans.length; j++) {
+                    spans[j].removeAttribute('class');
+                }
+                this.setAttribute('class', 'current');
+                //  获取当前点击的小按钮的索引
+                var index = this.getAttribute('index');
+                //  根据这个索引和移动的单位宽 得到移动的目的位置
+                var target = -index * unitWidth;
+                //  调用animate方法做动画
+                animate(ul1, target);
+                //  注意: *****
+                //  把picIndex的值和当前点击的小方块的索引给 匹配起来. 
+                picIndex = this.getAttribute('index');
+                console.log('picIndex-',picIndex);
+            }
+        }
+
+        //3.左右焦点轮播
+        //3.1 给大盒子设置鼠标移入移出事件(显示/隐藏左右焦点)
+        box.onmouseover = function () {
+            arr.style.display = 'block';
+        }
+        box.onmouseout = function () {
+            arr.style.display = 'none';
+        }
+
+        //声明一个变量,用来记录图片滚出去的个数
+        var picIndex = 0;
+
+        //3.2 给右边焦点设置单击事件
+        right.onclick = function () {
+            // 判断
+            if (picIndex == 4) {
+                return;
+            }
+            // 让移动出去的图片个数++
+            picIndex++;
+            console.log('picIndex',picIndex);
+            // 根据移动出去的个数 和 移动的单位宽 得到移动的目标位置
+            var target = -picIndex * unitWidth;
+            // 调用animate方法做动画
+            animate(ul1, target);
+            // 让右下角对应的小方块显示颜色,其他的不显示颜色.
+            // for(var i = 0; i<spans.length;i++){
+            //     spans[i].removeAttribute('class');
+            // }
+            // spans[picIndex].setAttribute('class','current');
+
+            spans[picIndex-1].removeAttribute('class');
+            spans[picIndex].setAttribute('class','current');
+        }
+
+
+
+        // 3.3 给左边焦点设置点击事件
+        left.onclick = function () {
+            // 判断
+            if(picIndex == 0){
+                return;
+            }
+            // 让移动出去的图片个数--
+            picIndex--;
+            // 根据移动出去的个数 和 移动的单位宽 得到移动的目标位置
+            var target = -picIndex * unitWidth;
+            // 调用animate方法做动画
+            animate(ul1, target);
+            // 让右下角对应的小方块显示颜色,其他的不显示颜色.
+            spans[picIndex+1].removeAttribute('class');
+            spans[picIndex].setAttribute('class','current');
+        }
+    </script>
+
+</body>
+
+</html>

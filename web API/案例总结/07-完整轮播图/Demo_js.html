@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <style type="text/css">
+    * {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      border: 0;
+    }
+
+    .all {
+      width: 500px;
+      height: 200px;
+      padding: 7px;
+      border: 1px solid #ccc;
+      margin: 100px auto;
+      position: relative;
+    }
+
+    .screen {
+      width: 500px;
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .screen li {
+      width: 500px;
+      height: 200px;
+      overflow: hidden;
+      float: left;
+    }
+
+    .screen ul {
+      position: absolute;
+      left: 0;
+      top: 0px;
+      width: 3000px;
+    }
+
+    .all ol {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      line-height: 20px;
+      text-align: center;
+    }
+
+    .all ol li {
+      float: left;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border: 1px solid #ccc;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    .all ol li.current {
+      background: yellow;
+    }
+
+    #arr {
+      display: none;
+    }
+
+    #arr span {
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      left: 5px;
+      top: 50%;
+      margin-top: -20px;
+      background: #000;
+      cursor: pointer;
+      line-height: 40px;
+      text-align: center;
+      font-weight: bold;
+      font-family: '黑体';
+      font-size: 30px;
+      color: #fff;
+      opacity: 0.3;
+      border: 1px solid #fff;
+    }
+
+    #arr #right {
+      right: 5px;
+      left: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="all" id='box'>
+    <div class="screen">
+      <ul>
+        <li><img src="images/1.jpg" width="500" height="200" /></li>
+        <li><img src="images/2.jpg" width="500" height="200" /></li>
+        <li><img src="images/3.jpg" width="500" height="200" /></li>
+        <li><img src="images/4.jpg" width="500" height="200" /></li>
+        <li><img src="images/5.jpg" width="500" height="200" /></li>
+      </ul>
+      <ol>
+        <!-- 动态创建的小方块，添加在这里，样式已经给写好了-->
+      </ol>
+    </div>
+    <div id="arr">
+      <span id="left">&lt;</span>
+      <span id="right">&gt;</span>
+    </div>
+  </div>
+
+
+  <script src="../animate.js"></script>
+  <script>
+    //思路
+    //1.获取对应的元素
+    //  获取移动的单位宽
+    //2.根据轮播的图片的个数,来动态的创建小方块按钮.
+    //  ol下面的li标签们
+    //  默认第一个li标签有样式(其实就是给他添加current类)
+    //3.简单轮播
+    //  遍历右下角的小按钮们
+    //  给每一个添加索引
+    //  给每一个注册单击事件
+    //      颜色排他
+    //      获取当前点击的这个按钮的索引
+    //      根据这个索引 和单位宽 得到移动的目标位置
+    //      调用animate方法移动
+    //      注意: *****
+    //4.左右焦点轮播
+    //4.1 显示隐藏左右焦点
+    //4.2 右边焦点注册事件
+    //    移动出去的图片张数++
+    //    根据移动出去的张数 和 移动的单位宽  得到目标位置
+    //    调用animate()方法做动画
+    //    和右下角小方块对应的那个颜色要对上
+    //    *****无缝轮播
+    //4.3 左边焦点注册事件
+
+
+    //实现
+    //1.获取对应的元素
+    var box = document.getElementById('box'); //大盒子
+    var screen = document.querySelector('.screen');
+    var unitWidth = screen.offsetWidth; //移动的单位宽
+    var ul1 = screen.children[0]; //做动画的ul标签
+    var lisUL = ul1.children; //ul下面的li标签们
+    var ol1 = screen.children[1]; //ol标签
+    var arr = document.getElementById('arr'); //左右焦点大盒子
+    var left = document.getElementById('left'); //左边焦点
+    var right = document.getElementById('right'); //右边焦点
+
+    //2.根据轮播的图片的个数,来动态的创建小方块按钮.
+    for (var i = 0; i < lisUL.length; i++) {
+      // 创建li标签
+      var liNew = document.createElement('li');
+      // 给li标签添加内容
+      liNew.innerHTML = i + 1;
+      // 添加到ol中
+      ol1.appendChild(liNew);
+    }
+    // 默认第一个li标签有样式(其实就是给他添加current类)
+    var lisOL = ol1.children; //这里是ol里面的所有的li标签们,右下角小按钮们
+    lisOL[0].setAttribute('class', 'current');
+
+
+    //3.简单轮播
+    //  遍历右下角的小按钮们
+    for (var i = 0; i < lisOL.length; i++) {
+      //  给每一个添加索引
+      lisOL[i].setAttribute('index', i);
+      //  给每一个注册单击事件
+      lisOL[i].onclick = function () {
+        // 颜色排他
+        for (var j = 0; j < lisOL.length; j++) {
+          lisOL[j].removeAttribute('class');
+        }
+        this.setAttribute('class', 'current');
+        // 获取当前点击的这个按钮的索引
+        var index = this.getAttribute('index');
+        // 根据这个索引 和单位宽 得到移动的目标位置
+        var target = -index * unitWidth;
+        // 调用animate方法移动
+        animate(ul1, target);
+        // 注意: *****
+        // 把picIndex以及liIndex和当前点击的这个小方块的索引给关联起来. 
+        picIndex = liIndex = this.getAttribute('index');
+      }
+    }
+
+    //4.左右焦点轮播
+    //4.1 显示隐藏左右焦点
+    box.onmouseover = function () {
+      arr.style.display = 'block';
+      //停止自动轮播
+      clearInterval(timerId);
+    }
+    box.onmouseout = function () {
+      arr.style.display = 'none';
+      //继续自动轮播
+      timerId = setInterval(nextPic, 4000);
+    }
+
+    //声明一个变量,用来记录移动出去的图片的张数
+    var picIndex = 0;
+    //克隆第一张轮播的图片,添加到ul的最后面
+    ul1.appendChild(lisUL[0].cloneNode(true));
+    //声明一个变量,用来记录小方块"滚出去"的个数
+    var liIndex = 0;
+
+    //4.2 右边焦点注册事件
+    right.onclick = function () {
+      nextPic();
+    }
+    //把点击右边焦点执行的代码封装成一个函数
+    function nextPic() {
+      //判断
+      if (picIndex == 5) { //5不要写死,5就是轮播的图片个数
+        picIndex = 0; //如果你当前滚出去了5张,说明你当前显示的是克隆哪一张.
+        ul1.style.left = '0px';
+      }
+      // 移动出去的图片张数++
+      picIndex++;
+      // 根据移动出去的张数 和 移动的单位宽  得到目标位置
+      var target = -picIndex * unitWidth;
+      // 调用animate()方法做动画
+      animate(ul1, target);
+      //console.log('picIndex',picIndex);
+      // *****无缝轮播
+      // 和右下角小方块对应的那个颜色要对上
+      for (var i = 0; i < lisOL.length; i++) {
+        lisOL[i].removeAttribute('class');
+      }
+      liIndex++;
+      if (liIndex == 5) {
+        liIndex = 0;
+      }
+      console.log('liIndex', liIndex);
+      lisOL[liIndex].setAttribute('class', 'current');
+    }
+
+
+    //4.3 左边焦点注册事件
+    left.onclick = function () {
+      //判断
+      if (picIndex == 0) {
+        picIndex = 5; //如果你当前是第1张,点击左边焦点就应该马上回到克隆那一张
+        ul1.style.left = -5 * unitWidth + 'px';
+      }
+      // 移动出去的图片张数--
+      picIndex--;
+      // 根据移动出去的张数 和 移动的单位宽  得到目标位置
+      var target = -picIndex * unitWidth;
+      // 调用animate()方法做动画
+      animate(ul1, target);
+      console.log('picIndex', picIndex);
+      // *****无缝轮播
+      // 和右下角小方块对应的那个颜色要对上
+      for (var i = 0; i < lisOL.length; i++) {
+        lisOL[i].removeAttribute('class');
+      }
+      liIndex--;
+      if (liIndex < 0) {
+        liIndex = 4;
+      }
+      console.log('liIndex', liIndex);
+      lisOL[liIndex].setAttribute('class', 'current');
+    }
+
+
+    //自动轮播(设置计时器,间隔4秒执行nextPic)
+    var timerId = setInterval(nextPic, 4000);
+  </script>
+</body>
+
+</html>

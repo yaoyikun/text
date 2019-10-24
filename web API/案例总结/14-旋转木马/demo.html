@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>旋转木马轮播图</title>
+  <link rel="stylesheet" href="css/demo1.css" />
+</head>
+
+<body>
+  <div class="wrap" id="wrap">
+    <div class="slide" id="slide">
+      <ul>
+        <li class="one"><a href="#"><img src="images/bingbing.jpg" alt="" /></a></li>
+        <li class="two"><a href="#"><img src="images/lingengxin.jpg" alt="" /></a></li>
+        <li class="three"><a href="#"><img src="images/yuanyuan.png" alt="" /></a></li>
+        <li class="four"><a href="#"><img src="images/slidepic4.jpg" alt="" /></a></li>
+        <li class="five"><a href="#"><img src="images/slidepic5.jpg" alt="" /></a></li>
+      </ul>
+      <div class="arr" id="arr">
+        <a href="javascript:;" class="prev" id="arrLeft"></a>
+        <a href="javascript:;" class="next" id="arrRight"></a>
+      </div>
+    </div>
+  </div>
+  <script>
+    //思路:
+    //1.获取元素
+    var bbox = document.querySelector('#wrap');
+    var sbox = document.querySelector('#slide');
+    var ul = sbox.children[0];
+    var ulList = ul.children;
+    var arr = document.querySelector('#arr');
+    var left = document.querySelector('#arrLeft');
+    var right = document.querySelector('#arrRight');
+    var config = [
+      {
+        width: 400,
+        top: 20,
+        left: 50,
+        opacity: 0.2,
+        "z-index": 2
+      }, //0
+      {
+        width: 600,
+        top: 70,
+        left: 0,
+        opacity: 0.8,
+        "z-index": 3
+      }, //1
+      {
+        width: 800,
+        top: 120,
+        left: 200,
+        opacity: 1,
+        "z-index": 4
+      }, //2
+      {
+        width: 600,
+        top: 70,
+        left: 600,
+        opacity: 0.8,
+        "z-index": 3
+      }, //3
+      {
+        width: 400,
+        top: 20,
+        left: 750,
+        opacity: 0.2,
+        "z-index": 2
+      } //4
+    ];
+    //2.设置鼠标移入事件/移出
+
+    bbox.onmouseover = function () {
+      arr.style.display = 'block';
+    }
+    bbox.onmouseout = function () {
+      arr.style.display = 'none';
+    }
+    var flag = true;
+    //3.构建函数获取样式并调用
+    showStyle();
+    function showStyle() {
+
+      for (var i = 0; i < config.length; i++) {
+        animate(ulList[i], config[i], function () {
+          flag = true;
+        })
+      }
+
+
+
+
+    }
+    //3.左右焦点点击事件
+
+    right.onclick = function () {
+      if (flag == true) {
+        config.unshift(config.pop());
+        showStyle();
+        flag = false;
+      }
+    };
+    left.onclick = function () {
+      if (flag == true) {
+        config.push(config.shift());
+        showStyle();
+        flag = false;
+      }
+    }
+    
+    //.构建动画函数
+    function animate(obj, attr, fn) {
+      clearInterval(obj.timeId);
+
+      obj.timeId = setInterval(function () {
+        var flag = true;
+        for (var key in attr) {
+          if (key == 'opacity') {
+            var place = getStyle(obj,key) * 100;
+            var step = (attr[key] * 100 - place) / 10;
+            step = step > 0 ? Math.ceil(step) : Math.floor(step);
+            place += step;
+            if (place != attr[key] * 100) {
+
+              flag = false;
+            }
+            obj.style[key] = place / 100;
+          } else if (key == 'z-index') {
+            obj.style[key] = parseInt(attr[key]);
+          } else {
+            var place = parseInt(getStyle(obj,key));
+            var step = (attr[key] - place) / 10;
+            step = step > 0 ? Math.ceil(step) : Math.floor(step);
+            place += step;
+            if (place != attr[key]) {
+
+              flag = false;
+            }
+            obj.style[key] = place + 'px';
+           
+          }
+        }
+        if (flag == true) {
+
+           clearInterval(obj.timeId);
+          if (Object.prototype.toString.call(fn) == '[object Function]') {
+            fn();
+          }
+        }
+      }, 20)
+    }
+
+    function getStyle(obj,attr) {
+      if (window.getComputedStyle) {
+        return window.getComputedStyle(obj, null)[attr];
+      } else {
+        return obj.currentStyle[attr];
+      }
+    }
+
+  </script>
+</body>
+
+</html>

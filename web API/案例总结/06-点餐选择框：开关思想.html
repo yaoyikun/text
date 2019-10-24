@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>点餐选择框：开关思想</title>
+<style>
+    * { margin: 0; padding: 0; }
+    table { border-collapse: collapse; border: 1px solid #c0c0c0; width: 500px; margin: 100px auto; text-align: center; }
+    th { background-color: #09c; font: bold 16px "微软雅黑"; color: #fff; height: 24px; }
+    td { border: 1px solid #d0d0d0; color: #404060; padding: 10px; }
+</style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>
+                <input type="checkbox" class="checkAll" />全选/全不选
+            </th>
+            <th>菜名</th>
+            <th>商家</th>
+            <th>价格</th>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" class="check" />
+            </td>
+            <td>红烧肉</td>
+            <td>隆江猪脚饭</td>
+            <td>￥200</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" class="check" />
+            </td>
+            <td>香酥排骨</td>
+            <td>隆江猪脚饭</td>
+            <td>￥998</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" class="check" />
+            </td>
+            <td>北京烤鸭</td>
+            <td>隆江猪脚饭</td>
+            <td>￥88</td>
+        </tr>
+    </table>
+</body>
+<script type="text/javascript">
+    /* 
+        需求：切点
+            1. 点击上方选择框：让下方选择框列表的 checked 值与自身保持一致
+            2. 点击下方选择框列表：判断上方选择框列表状态
+                选中：所有的选择框 checked 值都是 true
+                未选中：只要有一个选择框 checked 值是 false
+        思路：事件三要素
+            1. 获取元素
+            2. 注册事件
+            3. 事件处理
+     */
+    // 1. 获取元素
+    var checkAll = document.querySelector('.checkAll');
+    var checks = document.querySelectorAll('.check');
+
+    // 2. 注册事件
+    // 2.1 表头
+    checkAll.onclick = function() {
+        for (var i = 0; i < checks.length; i ++) {
+            // 点击上方选择框：让下方选择框列表的 checked 值与自身保持一致
+            checks[i].checked = this.checked;
+        }
+    }
+    // 2.2 列表
+    for (var i = 0; i < checks.length; i ++) {
+        checks[i].onclick = function() {
+            /*
+                开关思想：先假设一种情况，然后遍历所有参与的元素做判断
+                         若不通过，则假设被推翻
+                         若全部通过，则假设成立
+            */
+            var flag = true; // 假设全部都被勾选
+            for (var j = 0; j < checks.length; j ++) {
+                if (checks[j].checked == false) {
+                    flag = false;
+                    break;
+                }
+            }
+            checkAll.checked = flag;
+        }
+    }
+</script>
+</html>
