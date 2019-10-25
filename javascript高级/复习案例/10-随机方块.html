@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .map {
+            width: 800px;
+            height: 600px;
+            background-color: #ccc;
+            position: relative;
+            left: 0px;
+            top:0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="map" id="map"></div>
+    <script>
+        //1.经过分析,食物有宽/高/背景色/定位坐标,有这么多东西,那他肯定是一个对象保存的. 
+        //那就应该有一个构造函数创建这个对象 
+        function Food(width,height,bgColor,x,y){
+            this.width = width || 20;
+            this.height = height || 20;
+            this.bgColor = bgColor || 'green';
+            this.x = x || 0;
+            this.y = y || 0;
+        }
+        //2.现在我们要做的就是把食物对象渲染到页面地图上, 那渲染的代码肯定有很多,那就可以封装成一个方法.
+        //这个方法写在哪里比较合适? 写在原型中比较合适
+        //a. 一个食物对象要渲染,多个食物对象也要渲染,那这个渲染的方法就算是一个公共的方法,那就应该写在原型中. 
+        //b. 原型中的方法,食物对象可以直接点出来. 
+        Food.prototype.render = function(map){
+            //2.1 给调用这个render方法的食物对象随机一个xy坐标. 
+            this.x = Math.floor(Math.random() * map.offsetWidth/this.width ) * this.width;
+            this.y = Math.floor(Math.random() * map.offsetHeight/this.height) * this.height;
+            console.log(this.x ,this.y);
+            //2.2 创建一个div,让这个div拥有这个食物对象的所有显示信息(宽高背景色定位xy)
+            var div1 = document.createElement('div');
+            div1.style.position = 'absolute';
+            div1.style.left = this.x + 'px';
+            div1.style.top = this.y + 'px';
+            div1.style.width = this.width + 'px';
+            div1.style.height = this.height + 'px';
+            div1.style.backgroundColor = this.bgColor;
+
+            //2.3 把这个div追加到地图上
+            map.appendChild(div1);
+        }
+
+        
+        //获取一下地图
+        var map = document.getElementById('map');
+        //根据构造函数,实例化一个食物对象
+        var f1 = new Food();
+        console.log(f1);
+        //调用一下render方法
+        f1.render(map);
+
+    </script>
+
+</body>
+
+</html>
