@@ -51,6 +51,8 @@ for(var key in wangjianlin){
 
 
 
+原型链
+//____________________________________________________________________________
 原型prototype
 //原型:构造函数被创建时,系统会自动为我们创建一个与之对应的对象
 //作用:就是定义所有实例对象共享的属性和方法。这也是它被称为原型对象的原因，而实例对象可以视作         从原型对象衍生出来的子对象
@@ -77,3 +79,53 @@ for(var key in wangjianlin){
 //constructor属性的作用是，可以得知某个实例对象，到底是哪一个构造函数产生的
     //使用注意:当原型发生替换时,constructor指向会丢失,可以使用原型的属性方法重新指向  constructor:构造函数
 
+原型链
+//概念:每一个对象都有原型,原型又是对象,所以原型又有原型,那就形成了链式结构,成为原型链
+//作用:对象访问成员的访问规则
+
+内置对象的原型链
+//数组对象的原型链
+    //实例化arr对象.__proto__  == Array.prototype
+    //实例化arr对象.__proto__.__proto__  == Object.prototype
+    //注意点:实例化对象arr调用toString()得到结果格式和实例化obj对象调用的toString()方法得到的不是一样的,分别调用各自原型的方法
+//Date对象的原型链
+    //实例化date对象.__proto__  == Date.prototype
+    //实例化date对象.__proto__.__proto__   ==  Object.prototype
+//Function对象
+    //实例化test对象.__proto__  ==  Function.prototype
+    //实例化test对象.__proto__.__proto__  == Object.prototype
+//构造函数对象
+    //例  Function Student(){}
+    //构造函数Student.__proto__ ==  Function.prototype
+    //构造函数Student.__proto__.__proto__ == Object.prototype
+
+普通函数及构造函数
+//普通函数和构造函数都是函数
+//都可以直接调用  直接调用那函数中的this就是window
+//都可以配合new关键字调用  ,new关键字配合调用那函数中的this就是new关键字创建出来的对象
+//构造函数的名首字母一般大写
+
+
+
+js高级方法
+//__________________________________________________________________________-___________
+闭包
+//概念:就是声明在一个函数内部,可以访问函数内部的局部变量的这么一个函数
+function test(){
+    var num=10;
+    function test2(){
+        console.log(num);
+    }
+    return test2;
+}
+// 调用test函数会得到一个返回值,返回值是test2这个函数本身,所以这里的fn就相当于test2本身
+var fn=test();
+// 调用fn  相当于调用test2
+fn()
+
+闭包的作用
+//01:提升变量的生命周期(变量的生命周期:从声明到回收)
+    //局部变量:从声明这个局部变量开始,到声明他的函数执行完毕结束
+    //全局变量:从声明到程序结束被回收
+//02.声明在函数内部的局部变量,在函数外面不能访问  可以使用闭包访问
+    
