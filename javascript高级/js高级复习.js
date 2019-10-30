@@ -126,11 +126,18 @@ console.log(obj.hasOwnProperty("sb"));//false
 
 // 2  isPrototypeOf()
 //判断一个对象是否是另一个对象的原型
-
 var obj1={'name':"1"};
 var obj2={'name':"2"};
 obj2.__proto__=obj1;   //将obj2的原型改成obj1
 console.log(obj1.isPrototypeOf(obj2))  //true
+
+//3  propertyIsEnumerable()
+//判断属性/方法是否是属于自己
+//判断属性/方法能否被遍历
+//满足上边两个条件才返回true  //不常用
+
+//4 toString()
+//5 valueOf()
 
 
 
