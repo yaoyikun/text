@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        //1.借用构造函数继承
+        //这种继承只能继承this.xxx这种内容.
+        function Person(name,age){
+            this.name = name;
+            this.age = age;
+        }
+
+        function Student(name,age,score) {  
+            //借用构造函数继承
+            //用上下文的模式调用Person这个函数,把Person这个函数里面的this改成new关键字创建出来的那个对象.
+            //调用函数要去执行函数的函数体.
+            //Person.call(this,name,age);
+            //Person.apply(this,[name,age]);
+            Person.bind(this)(name,age);
+
+
+            //此时这里的this是new关键字创建出来的那个对象.
+            this.score = score;
+        }
+
+        //实例化一个学生对象
+        var s1 = new Student('世明',18,100);
+        console.log(s1);
+    
+    </script>
+</body>
+</html>

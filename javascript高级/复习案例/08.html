@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="father" id="father">
+        <div>div1
+            <span>span1</span>
+            <span>span2</span>
+        </div>
+        <div>div2</div>
+        <p>p1</p>
+        <p>p2
+            <b>b1</b>
+            <b>b2</b>
+        </p>
+    </div>
+
+
+    <script>
+        //遍历dom树
+        // var arr = [];
+        // function getHD(ele) {
+        //     var children = ele.children;
+        //     for (var i = 0; i < children.length; i++) {
+        //         var child = children[i];
+        //         arr.push(child);
+        //         getHD(child);
+        //     }
+        // }
+
+
+        // var father = document.querySelector('#father');
+        // getHD(father);
+        // console.log(arr);
+
+
+
+
+        //使用闭包
+        function getBL(){
+            var arr=[];
+            function getHD(ele){
+                var children=ele.children;
+                for(var i=0;i<children.length;i++){
+                    var child=children[i];
+                    arr.push(child);
+                    getHD(child);
+                }
+            }
+            return {
+                arr:arr,
+                getHD:getHD
+            }
+        }
+        var father=document.querySelector('#father');
+        var obj=getBL();
+        obj.getHD(father);
+        console.log(obj.arr);
+    </script>
+</body>
+
+</html>

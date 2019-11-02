@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        //需求: 元素都是数字的伪数组进行排序
+        var weiArr = {
+            0: 1109,
+            1: 110,
+            2: 220,
+            3: 215,
+            4: 210,
+            5: 500,
+            6: 400,
+            length: 7
+        }
+
+
+        //以前的做法: 冒泡排序
+        // for(var i = 0; i<weiArr.length-1; i++){
+        //     for(var j = 0; j<weiArr.length-1-i;j++){
+        //         if(weiArr[j] < weiArr[j+1]){
+        //             var temp = weiArr[j];
+        //             weiArr[j] = weiArr[j+1];
+        //             weiArr[j+1] = temp;
+        //         }
+        //     }
+        // }
+        // console.log(weiArr);
+
+
+
+        //现在的做法: sort();
+        Array.prototype.sort.call(weiArr,function(a,b){
+            return a-b;
+        });
+        console.log(weiArr);
+
+
+
+        
+        //-----------------------------------
+        //复习数组的sort方法
+        // var arr = [1109,110,220,215,210,500,400];
+        // arr.sort(function(a,b){
+        //     return b-a;
+        // });
+        // console.log(arr);
+
+
+
+    </script>
+</body>
+
+</html>

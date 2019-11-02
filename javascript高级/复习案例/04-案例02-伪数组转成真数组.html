@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        //需求:把伪数组转成真数组. 
+
+        //定义一个伪数组
+        var weiArr = {
+            0:'林绿群',
+            1:'林黑裙',
+            2:'彭亿鹏',
+            3:'陈美娟',
+            4:'雷世明',
+            5:'刘星雨',
+            6:'徐尔',
+            length:7
+        }
+        //验证确实是伪数组
+        // console.log(weiArr.__proto__ === Array.prototype);
+        // for(var i = 0; i<weiArr.length; i++){
+        //     console.log(weiArr[i]);
+        // }
+
+
+        //1.以前的做法
+        var arr = [];
+        for(var i = 0; i<weiArr.length; i++){
+            arr.push(weiArr[i]);
+        }
+        console.log(arr);
+
+
+        //2. push()
+        // var arr = [];
+        // arr.push.apply(arr,weiArr);
+        // console.log(arr);
+
+
+        //3. concat();
+        // var arr = [];
+        // var arrNew = arr.concat.apply(arr,weiArr);
+        // console.log(arrNew);
+
+
+        //4. slice();
+        //假如weiArr可以点出slice方法来,那就会得到一个真数组, 但是很遗憾,weiArr是一个伪数组,不能点出slice方法来.
+        //var arrNew = weiArr.slice(0);//报错
+        // var arrNew = Array.prototype.slice.call(weiArr,0);
+        // console.log(arrNew);
+
+
+        //5. es6
+        // var arrNew = Array.from(weiArr);
+        // console.log(arrNew);
+        
+
+
+    
+
+
+        //--------------------------------------------
+        //复习concat 连接数组
+        // var arr1 = [];
+        // var arrNew = arr1.concat(20,30,40,50);
+        // console.log(arrNew);
+
+        //复习slice()
+        // var arr = [10,20,30,40,50,60];
+        // var arrNew = arr.slice(0);
+        // console.log(arrNew);
+
+
+
+
+    </script>
+</body>
+</html>

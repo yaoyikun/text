@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        //需求: 查找数字数组中的最大值. 
+        var arr = [10,11,5,67,-90,78,55,46];
+
+        //以前的做法: 打擂台
+        // var max = -Infinity;
+        // for(var i = 0; i<arr.length; i++){
+        //     if(arr[i] > max){
+        //         max = arr[i];
+        //     }
+        // }
+        // console.log(max);
+
+
+        //现在的做法
+        // var max = Math.max.apply(Math,arr);
+        // console.log(max);
+
+
+
+
+
+        //复习 Math.max()------------------------------------
+        // var max = Math.max(10,20,30,-40);
+        // console.log(max);
+
+        var max=-Infinity;
+        for(var i=0;i<arr.length;i++){
+            if(arr[i]>max){
+                max=arr[i];
+            }
+        }
+        console.log(max);
+
+
+        var max=Math.max.apply(Math,arr);  
+        console.log(max);
+
+
+
+
+
+    </script>
+</body>
+</html>

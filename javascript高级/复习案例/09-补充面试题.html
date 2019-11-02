@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        //1.------------------------------
+        // function foo() {
+        //     var num = 123;
+        //     console.log(num); //123
+        // }
+        // foo();
+        // console.log(num); //报错 num is not defined
+
+
+        // 2
+        // var scope = "global";
+        // function foo() {
+        //     //在当前作用域中有变量的声明,那在当前这个作用域中使用这个变量就不会去外面找.
+        //     console.log(scope); //undefined
+        //     var scope = "local";
+        //     console.log(scope); //'local'
+        // }
+        // foo();
+
+
+        // 3
+        //分析过程
+        // var a; //相当于给window添加了一个属性a
+        // if ("a" in window) {
+        //     a = 10;
+        // }
+        // alert(a); // 10
+        //-----------------------
+        // if ("a" in window) {
+        //     var a = 10;
+        // }
+        // alert(a); // 10
+
+
+        //4
+        //分析过程
+        // var a ;
+        // if (!"a" in window) {
+        //     a = 10;
+        // }
+        // alert(a); // 
+        //------------------
+        // if (!"a" in window) {
+        //     var a = 10;
+        // }
+        // alert(a); // undefined
+
+
+        //5.
+        //分析过程
+        // console.log(name in window); //false
+        // var a;
+        // if (name in window) { //false  window中有name属性,但是name属性是""  "" in window
+        //     a = 10;
+        // }
+        // alert(a); //
+        //------------------
+        // if (name in window) {
+        //     var a = 10;
+        // }
+        // alert(a); //undefiend
+
+
+
+        //6.    
+        // if ("name" in window) {
+        //     var a = 10;
+        // }
+        // alert(a);//10
+
+
+        //7.
+        //分析过程
+        // console.log(window);
+        // var a ;
+        // if (a in window) { //undefined in  window
+        //     a = 10;
+        // }
+        // alert(a); //
+        //----------------------
+        // if (a in window) {
+        //     var a = 10;
+        // }
+        // alert(a); //10
+
+
+        // 8
+        //分析过程
+        // var foo = 1;
+        // function bar() {
+        //     var foo;
+        //     if (!foo) {
+        //         foo = 10;
+        //     }
+        //     alert(foo); //10
+        // }
+        // bar();
+        //-----------------
+        // var foo = 1;
+        // function bar() {
+        //     if (!foo) {
+        //         var foo = 10;
+        //     }
+        //     alert(foo); //10
+        // }
+        // bar();
+
+
+        //9.------------------------------------
+        // var num = 123;
+
+        // function f1() {
+        //     console.log(num); // 123
+        // }
+
+        // function f2() {
+        //     var num = 456;
+        //     f1();
+        // }
+
+        // f2();
+
+
+
+
+        //10.---------------------------------------
+        // var num = 123;
+
+        // function f1(num) { // 形参本质上是函数内部的一个局部变量
+        //     console.log(num); // 456
+        // }
+
+
+        // function f2() {
+        //     var num = 456;
+        //     f1(num);
+        // }
+
+        // f2();
+
+
+
+
+
+        // //------------------变态面试题---------------------
+        //分析过程
+        // var getName;
+
+        // function getName() {
+        //     alert(5);
+        // }
+        
+        // function Foo() {
+        //     getName = function () {
+        //         alert(1);
+        //     };
+        //     return this;
+        // }
+
+        // Foo.getName = function () {
+        //     alert(2);
+        // };
+
+        // Foo.prototype.getName = function () {
+        //     alert(3);
+        // };
+
+        // getName = function () {
+        //     alert(4);
+        // };
+
+        
+
+
+
+
+
+
+
+        // Foo.getName(); // 2
+        // getName(); // 4
+
+        // Foo().getName(); // 1
+        
+        // getName(); // 1
+
+        // new Foo.getName(); // 2
+
+        // new Foo().getName(); // 3
+
+
+        // new new Foo().getName(); // 3
+
+
+
+
+        // function Student(name,age){
+        //     this.name = name;
+        //     this.age = age;
+        // }
+        // new Student();//三部分 new 构造函数  ()
+
+
+
+
+
+        //--------------------------------------------------------------------------------
+        function Foo() {
+            getName = function () {
+                alert(1);
+            };
+            return this;
+        }
+        Foo.getName = function () {
+            alert(2);
+        };
+        Foo.prototype.getName = function () {
+            alert(3);
+        };
+        var getName = function () {
+            alert(4);
+        };
+
+        function getName() {
+            alert(5);
+        }
+
+        Foo.getName(); // 2
+        getName(); // 4
+        Foo().getName(); // 1
+        getName(); // 1
+        new Foo.getName(); // 2
+        new Foo().getName(); // 3
+        new new Foo().getName(); // 3
+
+    </script>
+</body>
+
+</html>
