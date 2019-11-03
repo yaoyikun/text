@@ -61,6 +61,62 @@ js变量的作用域
             //标记清除
             //引用计数
 
+js数据类型
+//_______________________________________________________________________
+undefined
+//使用var 声明变量但未初始化,区分空对象指针与尚未定义的变量,对未初始化的变量及未声明的变量使用typeof运算符均返回undefined
+null
+//逻辑上null表示空对象的指针,typeof检测返回object
+undefined与null关系
+// undefined派生于null
+// undefined==null   //true
+// undefined===null   //false
+
+Boolean
+// Boolean()  进行转换
+    //转换为true  任何非空字符串  任何非零数值   任何非空对象
+    //转换为false   空字符串  0  NaN  null  undefined
+
+String
+//组成:有0或多个16位Unicode字符组成
+//注意:字符创一旦创建既无法进行修改,如要改变销毁原有字符串
+//类型转换:
+    //toString()  
+        // 使用类型:  number   boolean    string  object 
+    //String()
+
+Number
+//数据转换
+    //number()
+        //boolean true:1   false:0
+        //null: 0
+        //undefined:  NaN
+        //string:   ""  :0
+    //parseInt()
+        //特性
+            // 自动忽略前置空格
+            //直到找到第一个非空格字符  不是数字返回null
+    //parseFloat()
+        //特性
+            //从第一个字符开始解析
+            //遇到无效浮点格式后结束
+            //忽略前导0
+            //只有第一个小数点有效
+Object
+    //定义:一组数据或功能的集合
+    //声明:var obj=new Object();
+    //属性:  Constructor  原型指向构造函数
+        //hasOwnProperty(属性名)  检测给定属性在当前对象实例中是否存在
+        //isPrototypeOf(对象名)   检测传入对项是否为另一个对象的原型
+        //toLocaleString()  返回对象的字符串表示,该字符串与执行环境的地区对应
+        //toString()  返回对象字符串表示
+        //valueOf()   返回对象的字符串,数值或布尔类型  通常与toString()的值相同
+
+
+
+
+
+
 js的流程控制
 //______________________________________________________________
 循环语句
@@ -95,7 +151,41 @@ js的流程控制
         //true执行循环体
         //false退出循环体
     //时机:重复一个动作到一定次数时    
+//   for-in  
+    //语法:for(var key in 对象 ){代码体}
+    //作用:枚举对象属性
+    //注意事项:
+            //循环输出的属性顺序不可须知
+            //对象的值不能是null或undefined
 
+跳转语句
+//return  终止函数体的运行,并返回一个值
+//break   终止整个循环,不再进行判断
+//continue  结束本次循环,接着去判断是否执行下次循环
+
+选择语句(分支语句)
+//if
+    //语句:if(){}else{}
+//switch
+switch(条件表达式){
+    case 标签1:
+        代码段1;
+        break;
+        ...
+        default:
+            代码段n;
+}
+    //格式:
+         //case标签为常量,可以使字符串和数字
+         //每个标签均为以冒号结束
+         //虽然break与default为可选项  但为逻辑清晰最好不要省略
+         //case标签的值必须和条件表达式值完全一致
+
+异常处理语句
+//throw  主动抛出异常
+//try  指明需要处理的代码段
+//catch  捕获异常
+//finally  后期处理
 
 js函数
 //_______________________________________________________________
