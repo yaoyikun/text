@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //需求:向数组中添加新元素
+        // var arr=[10,20,30,40,50];
+        //push
+        // arr.push(60,70,80);
+        // console.log(arr);
+
+        //下标方法
+        // var arrNew=[60,70,80];
+        // for(var key in arrNew){
+        //     arr[arr.length]=arrNew[key];
+        // }
+        // console.log(arr);
+
+        //concat(合并数组)
+        // var arrNew=[60,70,80];
+        // var arrNewTwo=arr.concat(arrNew);   //concat()方法会生成新数组
+        // console.log(arrNewTwo);
+
+
+
+        //需求.求一组数中的所有数的和
+        // var sum=0;
+        // for(var i=0;i<arr.length;i++){
+        //     sum+=arr[i];
+        // }
+        // console.log(sum);
+
+        // 需求.求一组数中的最大值/最小值
+        //li利用数组方法 math()   注意:Math.max()无法直接解析数组,,可以使用apply()方法进行传值
+        // var max=Math.max.apply(Math,arr);
+        // console.log(max);
+        // var min=Math.min.apply(Math,arr);
+        // console.log(min);
+
+        //利用循环
+        // var max=-Infinity;
+        // var min=Infinity;
+        // for(var i=0;i<arr.length;i++){
+        //     if(arr[i]>max){
+        //         max=arr[i];
+        //     }
+        //     if(arr[i]<min){
+        //         min=arr[i]
+        //     }
+        // }
+        // console.log(max);
+        // console.log(min);
+
+        // 5.要求将数组中的0项去掉，将不为0的值存入一个新的数组，生成新的数组
+        // var arr = [10,0,11,0,55,66,34,0,8];
+        // var arrNew=[];
+        // for(var i=0;i<arr.length;i++){
+        //     if(arr[i]!=0){
+        //         arrNew.push(arr[i]);
+        //     }
+        // }
+        // console.log(arrNew);
+
+
+        //2.倒序遍历
+        // var arr = [10,0,11,0,55,66,34,0,8];
+        // arr.sort(function(a,b){
+        //      return a-b;
+        // });
+        // arr.reverse();
+        // console.log(arr);
+
+
+        //7.斐波那契数列中第n位的数是多少?
+        // var  arr = [0, 1];
+        // function get(n) {
+        //     for (var i = 2; i <= n; i++) {
+        //         arr[i] = arr[i - 1] + arr[i - 2];
+        //     }
+        //     return arr[n];
+        // }
+        // get(8);
+        // console.log(arr);
+
+        //递归
+        // function getHD(){
+        //     var obj=[];  //用于记录所记录过得数据
+        //     function getFB(n){
+        //         if(obj[n]!=undefined){
+        //             //如当前数据计算过,直接进行返回
+        //             return obj[n];
+        //         }else{
+        //             //当前没有计算过,判断是否为1位2位
+        //             if(n==1  ||  n==2 ){
+        //                 obj[n]=1;  //当前为1位2位  直接返回1   并记录数值
+        //                 return 1;
+        //             }else{
+        //                 obj[n]=getFB(n-1)+getFB(n-2);   //进行计算  即利用递归进行项数计算
+        //                 return obj[n];
+        //             }
+        //         }
+        //     }
+        //     return getFB;  //使用闭包返回
+        // }
+        // console.log(getHD()(990));
+
+
+
+        var res = (function(num){ return num == 1?1:num * arguments.callee(num-1) })(5)
+
+
+
+   
+
+    
+    </script>
+</body>
+
+</html>

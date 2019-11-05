@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数组的翻转</title>
+</head>
+
+<body>
+    <script>
+        var arr=[10,20,30,40,50];
+        //分析需求:翻转数组
+
+        //1.利用push
+        // var arrNew=[];
+        // for(var i=arr.length-1;i>=0;i--){
+        //     console.log(arr[i]);
+        //     arrNew.push(arr[i]);
+        // }
+        // console.log(arrNew);
+
+        //2. 利用unshift
+        // var arrNewTwo=[];
+        // for(var i=0;i<arr.length;i++){
+        //     console.log(arr[i]);
+        //     arrNewTwo.unshift(arr[i]);
+        // }
+        // console.log(arrNewTwo);
+
+        //3. 利用对半循环思想
+        // for(var i=0;i<(arr.length-1)/2;i++){
+        //     var temp=arr[i];
+        //     arr[i]=arr[arr.length-i-1];
+        //     arr[arr.length-1-i]=temp;
+        // }
+        // console.log(arr);
+
+        //4. 利用Array()数组对象翻转方法
+        arr.reverse();
+        console.log(arr);
+    </script>
+</body>
+
+</html>

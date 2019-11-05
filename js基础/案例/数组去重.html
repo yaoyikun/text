@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数组去重</title>
+</head>
+
+<body>
+</body>
+
+<script>
+    //  1   借助indexOf()方法判断元素在该数组中是否首次出现的位置下标与循环的下标是否相等
+    // var arr = [1, 23, 1, 1, 1, 3, 23, 5, 6, 7, 9, 9, 8, 5];
+    // function get(arr){
+    //     for(var i=0;i<arr.length;i++){
+    //         if(arr.indexOf(arr[i])!=i){  //利用检测数组下标与当前遍历值是否为同一个
+    //             arr.splice(i,1);//删除当前项
+    //             i--;  //如出现重复,数组下标回退
+    //         }
+    //     }
+    //     return arr;
+    // }
+    // var a=get(arr);
+    // console.log(a);
+
+
+    //  2   ES6语法  数组的filter方法
+    // var r = arr.filter((ele, index, self) => {
+    //     return self.indexOf(ele) == index;
+    // })
+    // console.log(r);
+
+    //  3  借助新数组下标判断数据是否为当前下标数据
+    // var arr = [1, 23, 1, 1, 1, 3, 23, 5, 6, 7, 9, 9, 8, 5];
+    // function get(arr){
+    //     var arrNew=[];
+    //     for(var i=0;i<arr.length;i++){
+    //         if(arr.indexOf(arr[i])==i){
+    //             arrNew.push(arr[i]);
+    //         }
+    //     }
+    //     return arrNew;
+    // }
+    // var a=get(arr);
+    // console.log(a);
+
+    //  4  利用空对象记录新数组中已经存储过得元素
+    var arr = [1, 23, 1, 1, 1, 3, 23, 5, 6, 7, 9, 9, 8, 5];
+    // var obj={};
+    // var arrNew=[];
+    // for(var i=0;i<arr.length;i++){
+    //     if(!obj[arr[i]]){
+    //         obj[arr[i]]=true;
+    //         arrNew.push(arr[i]);
+    //     }
+    // }
+    // console.log(arrNew);
+
+
+    //   5  借助新数组,判断数组中是否含有该元素,如果不存在,则将元素添加到新数组中  添加原型中方法
+    // Array.prototype.reArr=function(){
+    //     var arrNew=[];
+    //     for(var i=0;i<this.length;i++){
+    //         if(arrNew.indexOf(this[i])==-1){
+    //             arrNew.push(this[i]);
+    //         }
+    //     }
+    //     return arrNew;
+    // }
+    // var arr2=arr.reArr();
+    // console.log(arr2);
+
+    //  6  双循环改变原数组
+    // function get(arr){
+    //     for(var i=0;i<arr.length;i++){
+    //         for(var j=0;j<arr.length;j++){
+    //             if(arr[i]==arr[j]  && i!=j){
+    //                 arr.splice(j,1)
+    //             }
+    //         }
+    //     }
+    //     return  arr;
+    // }
+    // var arr2=get(arr);
+    // console.log(arr2);
+
+    //  7  借助新数组
+    // var arr = [12, 2, 44, 3, 2, 32, 33, -2, 45, 33, 32, 3, 12];
+    // var newArr = [];
+    // for (var i = 0; i < arr.length; i++) {
+    //     var repArr = [];//接收重复数据后面的下标
+    //     //内层循环找出有重复数据的下标
+    //     for (var j = i + 1; j < arr.length; j++) {
+    //         if (arr[i] == arr[j]) {
+    //             repArr.push(j);//找出后面重复数据的下标
+    //         }
+    //     }
+    //     //console.log(repArr);
+    //     if (repArr.length == 0) {//若重复数组没有值说明其不是重复数据
+    //         newArr.push(arr[i]);
+    //     }
+    // }
+    // console.log(newArr);//[ 44, 2, -2, 45, 33, 32, 3, 12 ]
+
+
+
+    //  8 
+
+    // var arr = [1, 23, 1, 1, 1, 3, 23, 5, 6, 7, 9, 9, 8, 5];
+    // function removeDuplicatedItem(arr) {
+    //     for (var i = 0; i < arr.length - 1; i++) {
+    //         for (var j = i + 1; j < arr.length; j++) {
+    //             if (arr[i] == arr[j]) {
+    //                 8              arr.splice(j, 1);//console.log(arr[j]);
+    //                 j--;
+    //             }
+    //         }
+    //     }
+    //     return arr;
+    // }
+
+    // arr2 = removeDuplicatedItem(arr);
+    // console.log(arr);
+    // console.log(arr2);
+</script>
+
+</html>
+<script>
+
+</script>
